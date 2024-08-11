@@ -25,5 +25,5 @@ Route::get('/wordpress/syncTags',[WordPressController::class,'syncTags'])->name(
 //Route::get('/wordpress/DesText',[WordPressController::class,'DesText'])->name('admin.DesText');
 
 //Route::get('/wordpress/CleanBreakLine',[WordPressController::class,'CleanBreakLine'])->name('admin.CleanBreakLine');
- 
+
 //Route::get('/wordpress/UpdateDates',[WordPressController::class,'UpdateDates'])->name('admin.UpdateDates');
