@@ -27,17 +27,17 @@ class WordPressController extends AdminMainController {
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function UpdateDates() {
 
-       $blogs = BlogReview::query()->get();
-       foreach ($blogs as $blog){
-           $blog->updated_at  = "2024-04-15 00:00:00";
-           $blog->save();
-       }
+        $blogs = BlogReview::query()->get();
+        foreach ($blogs as $blog) {
+            $blog->updated_at = "2024-04-15 00:00:00";
+            $blog->save();
+        }
 
         $blogs = Blog::query()->get();
-        foreach ($blogs as $blog){
-            $blog->created_at  = "2024-04-15 00:00:00";
-            $blog->updated_at  = "2024-04-15 00:00:00";
-            $blog->published_at  = "2024-04-15 ";
+        foreach ($blogs as $blog) {
+            $blog->created_at = "2024-04-15 00:00:00";
+            $blog->updated_at = "2024-04-15 00:00:00";
+            $blog->published_at = "2024-04-15 ";
             $blog->save();
         }
 
@@ -233,7 +233,10 @@ class WordPressController extends AdminMainController {
     public function ImportTags() {
         set_time_limit(0);
         $SaveData = 1;
-        dd('done');
+//        $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->count();
+
+        dd('hi');
+
         if ($SaveData) {
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->count();
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(0)->take(10000)->get();
@@ -241,7 +244,7 @@ class WordPressController extends AdminMainController {
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(30000)->take(10000)->get();
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(40000)->take(10000)->get();
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(50000)->take(10000)->get();
-//            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(60000)->take(10000)->get();
+            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(60000)->take(10000)->get();
 
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->take('1')->get();
         } else {
@@ -270,6 +273,7 @@ class WordPressController extends AdminMainController {
                 echobr(urldecode($tag->term->slug));
             }
         }
+        echobr('66666666666666666');
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -278,56 +282,96 @@ class WordPressController extends AdminMainController {
         set_time_limit(0);
         $SaveData = 1;
         if ($SaveData) {
-            dd('hi');
-
+            dd('Done');
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')
-//                ->with('attachment')->with('taxonomies')->orderBy('ID')
+//                ->with('attachment')->with('taxonomies')->orderBy('ID')->count();
+//
+//            dd($posts);
+
+//            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(0)->take(250)->get();
+//            echobr('250 Done');
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(250)->take(250)->get();
+//            echobr('500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(500)->take(250)->get();
+//            echobr('750 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(750)->take(250)->get();
+//            echobr('1000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(1000)->take(500)->get();
+//            echobr('1500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(1500)->take(500)->get();
+//            echobr('2000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(2000)->take(500)->get();
+//            echobr('2500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(2500)->take(500)->get();
+//            echobr('3000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(3000)->take(500)->get();
+//            echobr('3500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(3500)->take(500)->get();
+//            echobr('4000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(4000)->take(500)->get();
+//            echobr('4500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(4500)->take(500)->get();
+//            echobr('5000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(5000)->take(500)->get();
+//            echobr('5500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(5500)->take(500)->get();
+//            echobr('6000 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(6000)->take(500)->get();
+//            echobr('6500 Done');
+
 
 //            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
 //                ->skip(6500)->take(500)->get();
+//            echobr('7000 Done');
+
+//            $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')->with('attachment')->with('taxonomies')->orderBy('ID')
+//                ->skip(6987)->take(500)->get();
+
+//            dd(count($posts));
+//            echobr('7000 Done');
+
 
         } else {
             $posts = Post::query()->where('post_type', 'post')->where('post_status', '!=', 'trash')
@@ -389,7 +433,7 @@ class WordPressController extends AdminMainController {
             $newTranslation = new BlogTranslation();
             $newTranslation->blog_id = $newPost->id;
             $newTranslation->locale = "ar";
-            $newTranslation->slug = urldecode($post->post_name);;
+            $newTranslation->slug = urldecode($post->post_name);
             $newTranslation->name = $post->post_title;
             $newTranslation->des = $post->post_content;
             if ($SaveData) {
@@ -402,7 +446,7 @@ class WordPressController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function syncBlogCategory() {
-//        dd('hi');
+       dd('hi');
         $AllCats = BlogCategory::all();
         foreach ($AllCats as $cat) {
             $thisId = $cat->id;
@@ -441,7 +485,8 @@ class WordPressController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function UpdatePhotoPath($url) {
-        $thumbnail = str_replace(['https://islamic-dreams-interpretation.com', 'http://islamic-dreams-interpretation.com'], ['', ''], $url);
+//        $thumbnail = str_replace(['https://islamic-dreams-interpretation.com', 'http://islamic-dreams-interpretation.com'], ['', ''], $url);
+        $thumbnail = str_replace(['https://ardillanet.com/', 'https://ardillanet.com', 'http://ardillanet.com'], ['', '', ''], $url);
         return $thumbnail;
     }
 

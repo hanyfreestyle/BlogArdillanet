@@ -27,8 +27,8 @@ class BlogTranslationSeeder2 extends Seeder {
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_9.sql');
         DB::unprepared(file_get_contents($tablePath));
 
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
-        DB::unprepared(file_get_contents($tablePath));
+//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
+//        DB::unprepared(file_get_contents($tablePath));
 
     }
 }

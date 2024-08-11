@@ -50,11 +50,11 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->nullable();
 
 
-//            $table->integer('old_cat')->nullable();
-//            $table->text('old_tags')->nullable();
-//            $table->integer('update_tags')->nullable();
-//            $table->integer('cat_id')->nullable();
-//            $table->string('post_status')->nullable();
+            $table->integer('old_cat')->nullable();
+            $table->text('old_tags')->nullable();
+            $table->integer('update_tags')->nullable();
+            $table->integer('cat_id')->nullable();
+            $table->string('post_status')->nullable();
 
             $table->boolean("is_active")->nullable()->default(true);
             $table->string("photo")->nullable();
@@ -86,7 +86,7 @@ return new class extends Migration {
             $table->integer('clean_des')->nullable();
 
             $table->unique(['blog_id', 'locale']);
-            $table->unique(['locale', 'slug']);
+//            $table->unique(['locale', 'slug']);
             $table->foreign('blog_id')->references('id')->on('blog_post')->onDelete('cascade');
         });
 
@@ -135,7 +135,7 @@ return new class extends Migration {
                 $table->string('name')->nullable();
                 $table->integer('trim')->nullable();
                 $table->unique(['tag_id', 'locale']);
-                $table->unique(['locale', 'slug']);
+//                $table->unique(['locale', 'slug']);
                 $table->foreign('tag_id')->references('id')->on('blog_tags')->onDelete('cascade');
             });
 
