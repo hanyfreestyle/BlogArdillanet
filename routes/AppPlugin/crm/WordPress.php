@@ -14,6 +14,7 @@ Route::get('/wordpress/ImportPosts',[WordPressController::class,'ImportPosts'])-
 //Route::get('/wordpress/UpdateErrSlug',[WordPressController::class,'UpdateErrSlug'])->name('admin.UpdateErrSlug');
 //Route::get('/wordpress/UpdateErrSlugNew',[WordPressController::class,'UpdateErrSlugNew'])->name('admin.UpdateErrSlugNew');
 Route::get('/wordpress/syncBlogCategory',[WordPressController::class,'syncBlogCategory'])->name('admin.syncBlogCategory');
+
 Route::get('/wordpress/syncTags',[WordPressController::class,'syncTags'])->name('admin.syncTags');
 
 
