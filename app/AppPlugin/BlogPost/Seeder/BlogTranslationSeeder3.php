@@ -1,8 +1,12 @@
 <?php
 
 namespace App\AppPlugin\BlogPost\Seeder;
-use App\AppPlugin\BlogPost\Models\BlogTranslation;
+use App\AppPlugin\BlogPost\Models\BlogPivot;
+use App\AppPlugin\BlogPost\Models\BlogReview;
+use App\AppPlugin\BlogPost\Models\BlogTagsPivot;
 
+
+use App\AppPlugin\BlogPost\Models\BlogTranslation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +30,7 @@ class BlogTranslationSeeder3 extends Seeder {
 
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_15.sql');
         DB::unprepared(file_get_contents($tablePath));
+
 
     }
 }

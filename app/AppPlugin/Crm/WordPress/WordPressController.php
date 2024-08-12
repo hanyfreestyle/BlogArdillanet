@@ -24,165 +24,9 @@ class WordPressController extends AdminMainController {
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    public function UpdateDates() {
-
-        $blogs = BlogReview::query()->get();
-        foreach ($blogs as $blog) {
-            $blog->updated_at = "2024-04-15 00:00:00";
-            $blog->save();
-        }
-
-        $blogs = Blog::query()->get();
-        foreach ($blogs as $blog) {
-            $blog->created_at = "2024-04-15 00:00:00";
-            $blog->updated_at = "2024-04-15 00:00:00";
-            $blog->published_at = "2024-04-15 ";
-            $blog->save();
-        }
-
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    public function CleanBreakLine() {
-
-        $allData = BlogTranslation::query()
-            ->where('clean_des', null)
-//            ->where('id', 4608)
-            ->take(500)
-            ->get();
-
-        foreach ($allData as $data) {
-
-            $des = $data->des;
-            $descleane = $data->des;
-
-            $descleane = str_replace('<!--more-->', '', $descleane);
-            $descleane = preg_replace('%(\[caption\b[^\]]*\](.*?)(\[\/caption]))%', '$2', $descleane);
-            $descleane = self::nl2p($descleane, false, true);
-            $descleane = str_replace('<br />', '', $descleane);
-            $descleane = str_replace('<p></p>', '', $descleane);
-
-            $destext = AdminHelper::textClean($descleane);
-
-            $data->clean_des = 1;
-            $data->des_text = $destext;
-            $data->des = $descleane;
-//             $data->save();
-        }
-
-        echobr(BlogTranslation::query()->where('clean_des', null)->count());
-
-//        return view('AppPlugin.CrmWordPress.index')->with([
-//            'des' => $des,
-//            'descleane' => $descleane,
-//            'destext' => $destext,
-//
-//
-//        ]);
-
-    }
-
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    public function nl2p($string, $line_breaks = true, $xml = true) {
-        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
-
-        if ($line_breaks == true)
-            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
-        else
-            return preg_replace(
-                array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
-                array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
-                trim($string));
-    }
-
-
-    public function nl2p_sours($string, $line_breaks = true, $xml = true) {
-        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
-
-        if ($line_breaks == true)
-            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
-        else
-            return '<p>' . preg_replace(
-                    array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
-                    array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
-                    trim($string)) . '</p>';
-    }
-
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function DesText() {
-        $names = BlogTranslation::query()->where('des_text', null)->take(500)->get();
-        foreach ($names as $name) {
-            $name->des_text = AdminHelper::textClean($name->des);
-            $name->save();
-        }
-        echobr(BlogTranslation::query()->where('des_text', null)->count());
-    }
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function TrimTags() {
-        $tags = BlogTagsTranslation::query()->where('trim', null)->take(5000)->get();
-        foreach ($tags as $tag) {
-            $tag->name = AdminHelper::Url_Slug($tag->name, ['delimiter' => ' ']);
-            $tag->trim = 1;
-            $tag->save();
-        }
-        echobr(BlogTagsTranslation::query()->where('trim', null)->count());
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function TrimBlogName() {
-        $names = BlogTranslation::query()->where('slug_count', 1)->take(500)->get();
-//        $names = BlogTranslation::query()->where('id',2360)->get();
-        foreach ($names as $name) {
-            $name->name = trim(AdminHelper::Url_Slug($name->name, ['delimiter' => ' ']));
-            $name->slug_count = null;
-            $name->save();
-        }
-        echobr(BlogTranslation::query()->where('slug_count', 1)->count());
-    }
-
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function UpdatePostStatus() {
-
-        $blog = Blog::query()->get()->groupBy('post_status');
-        $blog = Blog::query()
-            ->where('post_status', 'pending')
-            ->orWhere('post_status', 'draft')
-            ->get();
-//        foreach ($blog as $post){
-//            $post->is_active = 0 ;
-//            $post->timestamps = false;
-//            $post->save();
-//        }
-
-
-//
-//        dd($blog);
-
-
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function index() {
-
         $pageData['ViewType'] = "List";
-
-
         return view('AppPlugin.CrmWordPress.index', compact('pageData'));
     }
 
@@ -234,9 +78,7 @@ class WordPressController extends AdminMainController {
         set_time_limit(0);
         $SaveData = 1;
 //        $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->count();
-
         dd('hi');
-
         if ($SaveData) {
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->count();
 //            $tags = Taxonomy::where('taxonomy', 'post_tag')->with('term')->skip(0)->take(10000)->get();
@@ -442,7 +284,6 @@ class WordPressController extends AdminMainController {
         }
     }
 
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function syncBlogCategory() {
@@ -477,10 +318,124 @@ class WordPressController extends AdminMainController {
             $post->save();
         }
         echobr(Blog::where('update_tags', null)->count());
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    function RemoveBadData() {
+
+//        Blog::query()->where('id', '1')->first()->forceDelete();
+//        Blog::query()->where('id', '6990')->first()->forceDelete();
+
+        $blogs = BlogTranslation::query()->where('name', '')->get();
+        $NewName = 'عنوان المقال';
+        foreach ($blogs as $blog) {
+            $blog->name = $NewName;
+            $blog->slug = AdminHelper::Url_Slug($NewName . " " . $blog->id);
+            $blog->save();
+        }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function UpdatePostStatus() {
+        dd('hi');
+        $blog = Blog::query()->get()->groupBy('post_status');
+        $blog = Blog::query()
+            ->where('post_status', 'pending')
+            ->orWhere('post_status', 'draft')
+            ->get();
+
+        foreach ($blog as $post) {
+            $post->is_active = 0;
+            $post->timestamps = false;
+            $post->save();
+        }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function TrimTags() {
+        $tags = BlogTagsTranslation::query()->where('trim', null)->take(5000)->get();
+        $tags = BlogTagsTranslation::query()->where('tag_id', 45280)->get();
+        dd($tags);
+        foreach ($tags as $tag) {
+            $newName = str_replace("\u{A0}", '', $tag->name);
+            $tag->name = trim($newName);
+            $tag->trim = 1;
+            $tag->save();
+        }
+        echobr(BlogTagsTranslation::query()->where('trim', null)->count());
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function CreateReviewTable() {
+        $Blogs = Blog::query()->where('update_tags', null)->take(500)->get();
+        foreach ($Blogs as $blog) {
+            $blogReview = new BlogReview();
+            $blogReview->user_id = $blog->user_id;
+            $blogReview->blog_id = $blog->id;
+            $blogReview->name = null;
+            $blogReview->des = null;
+            $blogReview->loop_index = 1;
+            $blogReview->updated_at = $blog->created_at;
+            $blogReview->save();
+
+            $blog->update_tags = 1;
+            $blog->old_tags = null;
+            $blog->timestamps = false;
+            $blog->save();
+        }
+        echobr(Blog::query()->where('update_tags', null)->count());
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function CleanBreakLine() {
+dd('hi');
+        $allData = BlogTranslation::query()
+            ->where('clean_des', null)
+            ->take(500)
+            ->get();
+
+        foreach ($allData as $data) {
+
+            $des = $data->des;
+            $descleane = $data->des;
+
+            $descleane = str_replace('<!--more-->', '', $descleane);
+            $descleane = preg_replace('%(\[caption\b[^\]]*\](.*?)(\[\/caption]))%', '$2', $descleane);
+            $descleane = self::nl2p($descleane, false, true);
+            $descleane = str_replace('<br />', '', $descleane);
+            $descleane = str_replace('<p></p>', '', $descleane);
+
+            $destext = AdminHelper::textClean($descleane);
+
+            $data->clean_des = 1;
+            $data->des_text = $destext;
+            $data->des = $descleane;
+            $data->save();
+        }
+
+
+        echobr(BlogTranslation::query()->where('clean_des', null)->count());
 
     }
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function nl2p($string, $line_breaks = true, $xml = true) {
+        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
 
+        if ($line_breaks == true)
+            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
+        else
+            return preg_replace(
+                array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
+                array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
+                trim($string));
+    }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
@@ -490,149 +445,31 @@ class WordPressController extends AdminMainController {
         return $thumbnail;
     }
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function CountSlug() {
-        set_time_limit(0);
-        $blogs = BlogTranslation::where('slug_count', null)->take(1000)->get();
-        foreach ($blogs as $blog) {
-            $count = BlogTranslation::where('slug', $blog->slug)->count();
-            $blog->slug_count = $count;
-            $blog->save();
-        }
-        echobr(BlogTranslation::where('slug_count', null)->count());
-        echobr(BlogTranslation::where('slug_count', '>', 1)->count());
-    }
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function UpdateErrSlug() {
-        dd('needCheckPls');
-        set_time_limit(0);
-        $blogs = BlogTranslation::where('slug_count', '>', 1)->take(500)->get();
-        foreach ($blogs as $blog) {
-            $blog->slug = $blog->slug . "-" . $blog->id;
-            $count = BlogTranslation::where('slug', $blog->slug)->count();
-            $blog->slug_count = $count;
-            $blog->save();
-        }
-        echobr(BlogTranslation::where('slug_count', null)->count());
-        echobr(BlogTranslation::where('slug_count', '>', 1)->count());
-    }
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function UpdateErrSlugNew() {
-        set_time_limit(0);
-        $blogs = BlogTranslation::where('slug_count', 0)->take(500)->get();
-        foreach ($blogs as $blog) {
-
-//            $blog->slug = AdminHelper::Url_Slug($blog->name." ".$blog->id);
-
-//            $blog->save();
-            $count = BlogTranslation::where('slug', $blog->slug)->count();
-            $blog->slug_count = $count;
-            $blog->save();
-//            echobr($blog->slug);
-        }
-        echobr(BlogTranslation::where('slug_count', null)->count());
-        echobr(BlogTranslation::where('slug_count', 0)->count());
-    }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function CheckId() {
-//        $posts = Post::published()->where('post_type', 'post')->where('ID', 53172)->get();
-//        dd($posts);
-
         $old_listing = DB::connection('mysql2')->table('wp_users')->first();
         dd($old_listing);
     }
 
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+//    public function CountSlug() {
+//        set_time_limit(0);
+//        $blogs = BlogTranslation::where('slug_count', null)->take(1000)->get();
+//        foreach ($blogs as $blog) {
+//            $count = BlogTranslation::where('slug', $blog->slug)->count();
+//            $blog->slug_count = $count;
+//            $blog->save();
+//        }
+//        echobr(BlogTranslation::where('slug_count', null)->count());
+//        echobr(BlogTranslation::where('slug_count', '>', 1)->count());
+//    }
 
-
-
-
-
-    /*
-
-    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    #|||||||||||||||||||||||||||||||||||||| #
-        public function UpdateMeta($saveData, $row, $val) {
-            $saveTranslation = BlogTranslation::where("blog_id", $saveData)->where('locale', 'ar')->first();
-            if ($saveTranslation != null) {
-                $saveTranslation->$row = $val;
-                $saveTranslation->save();
-            }
-        }
-
-
-    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    #|||||||||||||||||||||||||||||||||||||| #
-        public function indexSSSS() {
-
-            $posts = Post::published()->where('post_type', 'post')->take(25)->get();
-
-            foreach ($posts as $post) {
-                echobr($post->ID);
-                echobr('##############################################');
-
-                $newPost = new Blog();
-                $newPost->old_id = $post->ID;
-                $newPost->created_at = $post->post_date;
-                $newPost->updated_at = $post->post_modified;
-                $newPost->published_at = Carbon::parse($post->post_date)->format("Y-m-d");
-                if ($post->thumbnail != null) {
-                    $thumbnail = str_replace('https://cottton.shop/', '', $post->thumbnail);
-                    $newPost->photo = $thumbnail;
-                    $newPost->photo_thum_1 = $thumbnail;
-                }
-                $newPost->save();
-
-                $newTranslation = new BlogTranslation();
-                $newTranslation->blog_id = $newPost->id;
-                $newTranslation->locale = "ar";
-                $newTranslation->slug = urldecode($post->post_name);;
-                $newTranslation->name = $post->post_title;
-                $newTranslation->des = $post->post_content;
-                $newTranslation->save();
-
-                foreach ($post->meta as $meta) {
-                    $Line = $meta->meta_key . " > " . $meta->meta_value;
-
-                    if ($meta->meta_key == '_yoast_wpseo_primary_category') {
-                        $newPost->old_cat = $meta->meta_value;
-                        $newPost->save();
-                    }
-
-                    if ($meta->meta_key == '_yoast_post_redirect_info') {
-                        $newPost->redirect_info = $meta->meta_value;
-                        $newPost->save();
-                    }
-
-
-                    if ($meta->meta_key == '_yoast_wpseo_title') {
-                        self::UpdateMeta($newPost->id, 'g_title', $meta->meta_value);
-                    }
-
-                    if ($meta->meta_key == '_yoast_wpseo_metadesc') {
-                        self::UpdateMeta($newPost->id, 'g_des', $meta->meta_value);
-                    }
-
-
-                    echobr($Line);
-
-                }
-                echobr("----------------------------");
-            }
-
-        }
-
-    */
-
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //    public function CheckUser() {
 //
 //        $blogs = Blog::where('new_post', 1)->take(500)->get();
@@ -645,6 +482,89 @@ class WordPressController extends AdminMainController {
 //        }
 //        echobr(Blog::where('new_post', 1)->count());
 //    }
+
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+//    public function UpdateErrSlugNew() {
+//        dd('hi');
+//        set_time_limit(0);
+//        $blogs = BlogTranslation::where('slug_count', 0)->take(500)->get();
+//        foreach ($blogs as $blog) {
+//
+//            $blog->slug = AdminHelper::Url_Slug($blog->name." ".$blog->id);
+//
+//            $blog->save();
+//            $count = BlogTranslation::where('slug', $blog->slug)->count();
+//            $blog->slug_count = $count;
+//            $blog->save();
+//            echobr($blog->slug);
+//        }
+//        echobr(BlogTranslation::where('slug_count', null)->count());
+//        echobr(BlogTranslation::where('slug_count', 0)->count());
+//    }
+
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//    public function nl2p_sours($string, $line_breaks = true, $xml = true) {
+//        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
+//
+//        if ($line_breaks == true)
+//            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
+//        else
+//            return '<p>' . preg_replace(
+//                    array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
+//                    array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
+//                    trim($string)) . '</p>';
+//    }
+
+
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+//    public function UpdateErrSlug() {
+//        dd('needCheckPls');
+//        set_time_limit(0);
+//        $blogs = BlogTranslation::where('slug_count', '>', 1)->take(500)->get();
+//        foreach ($blogs as $blog) {
+//            $blog->slug = $blog->slug . "-" . $blog->id;
+//            $count = BlogTranslation::where('slug', $blog->slug)->count();
+//            $blog->slug_count = $count;
+//            $blog->save();
+//        }
+//        echobr(BlogTranslation::where('slug_count', null)->count());
+//        echobr(BlogTranslation::where('slug_count', '>', 1)->count());
+//    }
+
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//    public function UpdateDates() {
+//        $blogs = BlogReview::query()->get();
+//        foreach ($blogs as $blog) {
+//            $blog->updated_at = "2024-04-15 00:00:00";
+//            $blog->save();
+//        }
+//        $blogs = Blog::query()->get();
+//        foreach ($blogs as $blog) {
+//            $blog->created_at = "2024-04-15 00:00:00";
+//            $blog->updated_at = "2024-04-15 00:00:00";
+//            $blog->published_at = "2024-04-15 ";
+//            $blog->save();
+//        }
+//    }
+
+
+//#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+//    public function TrimBlogName() {
+//        $names = BlogTranslation::query()->where('slug_count', 1)->take(500)->get();
+//        $names = BlogTranslation::query()->where('id',2360)->get();
+//        foreach ($names as $name) {
+//            $name->name = trim(AdminHelper::Url_Slug($name->name, ['delimiter' => ' ']));
+//            $name->slug_count = null;
+//            $name->save();
+//        }
+//        echobr(BlogTranslation::query()->where('slug_count', 1)->count());
+//    }
+
 
 }
 

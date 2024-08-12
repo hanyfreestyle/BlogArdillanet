@@ -57,10 +57,6 @@ class DatabaseSeeder extends Seeder {
                 $this->call(GoogleCodeSeeder::class);
             }
 
-            if (File::isFile(base_path('routes/AppPlugin/crm/ImportData.php'))) {
-                $this->call(ImportDataSeeder::class);
-            }
-
             if (File::isFile(base_path('routes/AppPlugin/config/configMeta.php'))) {
                 $this->call(SeederMetaTag::class);
             }
@@ -74,7 +70,7 @@ class DatabaseSeeder extends Seeder {
                 $this->call(BlogPostSeeder::class);
                 $this->call(BlogTranslationSeeder::class);
                 $this->call(BlogTranslationSeeder2::class);
-//                $this->call(BlogTranslationSeeder3::class);
+                $this->call(BlogTranslationSeeder3::class);
                 $this->call(BlogTranslationSeeder4::class);
             }
 

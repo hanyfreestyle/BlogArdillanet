@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 
-use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder4;
+use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder3;
 use Illuminate\Database\Seeder;
 
 
 class DatabaseSeeder3 extends Seeder {
 
     public function run(): void {
-        $this->call(BlogTranslationSeeder4::class);
+        $this->call(BlogTranslationSeeder3::class);
     }
 }

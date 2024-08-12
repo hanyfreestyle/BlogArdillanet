@@ -10,6 +10,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder4 extends Seeder {
 
+
     public function run(): void {
         $this->call(BlogTranslationSeeder4::class);
 
