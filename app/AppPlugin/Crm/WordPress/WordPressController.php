@@ -446,7 +446,7 @@ class WordPressController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function syncBlogCategory() {
-       dd('hi');
+        dd('hi');
         $AllCats = BlogCategory::all();
         foreach ($AllCats as $cat) {
             $thisId = $cat->id;
@@ -462,8 +462,8 @@ class WordPressController extends AdminMainController {
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function syncTags() {
         set_time_limit(0);
-//        dd('hi');
-        $AllPost = Blog::where('update_tags', null)->take(250)->get();
+        dd('hi');
+        $AllPost = Blog::where('update_tags', null)->take(500)->get();
         foreach ($AllPost as $post) {
             $oldTags = unserialize($post->old_tags);
             $newTags = array();

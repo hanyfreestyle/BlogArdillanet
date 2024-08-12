@@ -27,9 +27,9 @@ class BlogTranslationSeeder4 extends Seeder {
         $tablePath = public_path('db/blogcategory_blog.sql');
         DB::unprepared(file_get_contents($tablePath));
 
-//        BlogTagsPivot::unguard();
-//        $tablePath = public_path('db/blog_tags_post.sql');
-//        DB::unprepared(file_get_contents($tablePath));
+        BlogTagsPivot::unguard();
+        $tablePath = public_path('db/blog_tags_post.sql');
+        DB::unprepared(file_get_contents($tablePath));
 //
 //
 //        BlogReview::unguard();
