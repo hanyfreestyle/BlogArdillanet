@@ -17,11 +17,12 @@
                 <thead>
                 <tr>
                     <th class="TD_20">#</th>
-                    <th class="TD_20"></th>
+{{--                    <th class="TD_20"></th>--}}
                     <th class="TD_80">{{$Config['LangPostPublishedDateName']}}</th>
                     <th class="TD_80">{{__('admin/blogPost.blog_user')}}</th>
                     <th class="TD_250">{{$Config['LangPostDefName']}}</th>
-                    <th class="TD_100">{{__('admin/blogPost.cat_text_name')}}</th>
+                    <th class="TD_250">Slug</th>
+{{--                    <th class="TD_100">{{__('admin/blogPost.cat_text_name')}}</th>--}}
                     <x-admin.table.action-but po="top" type="edit"/>
                     <x-admin.table.action-but po="top" type="delete"/>
                 </tr>
@@ -50,7 +51,7 @@
 
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'photo', name: 'photo', orderable: false, searchable: false, className: "text-center"},
+                    // {data: 'photo', name: 'photo', orderable: false, searchable: false, className: "text-center"},
 
                     {
                         'name': 'published_at',
@@ -59,10 +60,12 @@
                             'sort': 'published_at.timestamp'
                         }
                     },
-                    {data: 'userName', name: 'userName.name', orderable: false, searchable: false,},
-                    {data: 'tablename.0.name', name: 'tablename.name', orderable: false},
+                    {data: 'user_name', name: 'users.name' ,orderable: false, searchable: false,},
 
-                    {data: 'CatName', name: 'CatName', orderable: false, searchable: false},
+                    {data: 'name', name: 'blog_translations.name'  },
+                    {data: 'slug', name: 'blog_translations.slug'  },
+
+                    {{--{data: 'CatName', name: 'CatName', orderable: false, searchable: false},--}}
                         @can($PrefixRole.'_edit')
                     {
                         data: 'Edit', name: 'Edit', orderable: false, searchable: false, className: "text-center"

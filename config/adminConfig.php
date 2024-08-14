@@ -6,7 +6,7 @@ return [
     'copyright_start_date'=> '2004',
     'copyright_name'=> 'Freestyle4u',
     'copyright_url'=> 'http://freestyle4u.com/',
-    'textWithLogo'=> 'Islamic Blog',
+    'textWithLogo'=> 'ardillanet.com',
 
 
     'dark-mode'=> false,
@@ -21,7 +21,7 @@ return [
 
 
 
-    'title' => 'Islamic Blog | Powered By Freestyle4u.com ',
+    'title' => 'ardillanet.com | Powered By Freestyle4u.com ',
 
     #'def_home_url'=> route('Dashboard1','Dashboard1'),
 
