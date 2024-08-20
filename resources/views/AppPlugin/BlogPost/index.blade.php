@@ -45,7 +45,7 @@
                 processing: true,
                 serverSide: true,
                 pageLength: 10,
-                order: [0, 'desc'],
+                order: [1, 'desc'],
                 @include('datatable.lang')
                 ajax: "{{ route($PrefixRoute.$routeName) }}",
 
